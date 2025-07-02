@@ -46,5 +46,15 @@
         }
       }
     }
+  },
+  "dependencies": {
+    "@neo4j/graphql": "^7.2.3",
+    "@nestjs/apollo": "^13.1.0",
+    "apollo-server-express": "^3.13.0",
+    "graphql": "^16.11.0",
+    "neo4j-driver": "^5.28.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.10"
   }
 }
