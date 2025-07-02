@@ -4,16 +4,10 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/movie-rating-e2e"
+      "path": "./apps/frontend"
     },
     {
-      "path": "./apps/movie-rating"
-    },
-    {
-      "path": "./backend-e2e"
-    },
-    {
-      "path": "./backend"
+      "path": "./apps/backend"
     }
   ]
 }
