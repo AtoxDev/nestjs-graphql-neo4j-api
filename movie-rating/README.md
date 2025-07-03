@@ -1,82 +1,182 @@
-# MovieRating
+# Movie Rating API - GraphQL + Neo4j
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+API GraphQL para gestionar usuarios, películas y valoraciones usando Neo4j como base de datos.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+## 🚀 Tecnologías
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+- **Backend:** NestJS + GraphQL + Apollo Server
+- **Frontend:** React + Vite
+- **Base de datos:** Neo4j
+- **Orquestación:** Docker + Docker Compose
 
-## Finish your CI setup
+## 📋 Requisitos
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/CIIk8lnH4l)
+- Docker Desktop
+- Node.js 18+
+- npm
 
+## 🐳 Ejecutar con Docker (Recomendado)
 
-## Run tasks
+### 1. Construir las imágenes
 
-To run the dev server for your app, use:
-
-```sh
-npx nx serve movie-rating
+```bash
+npm run docker:build
 ```
 
-To create a production bundle:
+### 2. Levantar todos los servicios
 
-```sh
-npx nx build movie-rating
+```bash
+npm run docker:up
 ```
 
-To see all available targets to run for a project, run:
+### 3. Cargar datos iniciales
 
-```sh
-npx nx show project movie-rating
+```bash
+npm run docker:seed
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+### 4. Acceder a las aplicaciones
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- **Frontend:** http://localhost
+- **Backend API:** http://localhost:3000/api
+- **GraphQL Playground:** http://localhost:3000/api/graphql
+- **Neo4j Browser:** http://localhost:7474
 
-## Add new projects
+### 5. Comandos útiles
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+```bash
+# Ver logs en tiempo real
+npm run docker:logs
 
-Use the plugin's generator to create new projects.
+# Detener todos los servicios
+npm run docker:down
 
-To generate a new application, use:
-
-```sh
-npx nx g @nx/react:app demo
+# Reiniciar servicios
+npm run docker:restart
 ```
 
-To generate a new library, use:
+## 🛠️ Desarrollo Local
 
-```sh
-npx nx g @nx/react:lib mylib
+### 1. Instalar dependencias
+
+```bash
+npm install
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### 2. Levantar Neo4j con Docker
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```bash
+docker run --name neo4j-test -p7474:7474 -p7687:7687 -e NEO4J_AUTH=neo4j/test1234 -d neo4j:5
+```
 
+### 3. Cargar datos iniciales
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```bash
+npm run seed
+```
 
-## Install Nx Console
+### 4. Ejecutar aplicaciones
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+**Backend:**
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```bash
+npm run start:backend
+```
 
-## Useful links
+**Frontend:**
 
-Learn more:
+```bash
+npm run start:frontend
+```
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## 📊 Estructura del Proyecto
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```
+movie-rating/
+├── apps/
+│   ├── backend/          # API GraphQL (NestJS)
+│   ├── frontend/         # Aplicación React
+│   └── tests/            # Tests e2e y unitarios
+├── scripts/
+│   └── seed.ts          # Script para cargar datos iniciales
+├── docker-compose.yml   # Orquestación de servicios
+└── README.md
+```
+
+## 🔧 Configuración
+
+### Variables de entorno
+
+```env
+# Neo4j
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USERNAME=neo4j
+NEO4J_PASSWORD=test1234
+
+# Backend
+PORT=3000
+NODE_ENV=development
+```
+
+## 📝 API GraphQL
+
+### Queries disponibles:
+
+- `movies` - Lista todas las películas
+- `movie(id: ID!)` - Detalles de una película
+- `users` - Lista todos los usuarios
+- `user(id: ID!)` - Detalles de un usuario
+- `ratingsByUser(userId: ID!)` - Valoraciones de un usuario
+- `ratingsForMovie(movieId: ID!)` - Valoraciones de una película
+- `averageRatingForMovie(movieId: ID!)` - Promedio de valoraciones
+
+### Mutations disponibles:
+
+- `addMovie(input: MovieInput!)` - Añadir película
+- `registerUser(input: UserInput!)` - Registrar usuario
+- `rateMovie(userId: ID!, movieId: ID!, score: Int!, review: String)` - Valorar película
+
+## 🧪 Testing
+
+```bash
+# Tests del backend
+npm run test:backend
+
+# Tests del frontend
+npm run test:frontend
+```
+
+## 📦 Build
+
+```bash
+# Build del backend
+npm run build:backend
+
+# Build del frontend
+npm run build:frontend
+```
+
+## 🔍 Troubleshooting
+
+### Problemas comunes:
+
+1. **Puerto 3000 ocupado:**
+
+   ```bash
+   lsof -ti:3000 | xargs kill -9
+   ```
+
+2. **Neo4j no responde:**
+
+   ```bash
+   docker restart neo4j-test
+   ```
+
+3. **Permisos de Docker:**
+   ```bash
+   sudo chown -R $USER:$USER .
+   ```
+
+## 📄 Licencia
+
+MIT

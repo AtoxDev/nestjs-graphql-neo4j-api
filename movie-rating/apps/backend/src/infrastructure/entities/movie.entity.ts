@@ -16,5 +16,5 @@ export class Movie {
   genres: string[];
 
   @Field(() => [Rating], { nullable: 'itemsAndList' })
-  ratings: Rating[];
+  ratings?: Rating[];
 }

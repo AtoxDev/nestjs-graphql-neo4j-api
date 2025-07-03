@@ -12,7 +12,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "target": "es2021",
-    "composite": true
+    "composite": true,
+    "declaration": true
   },
   "include": [
     "src/**/*.ts"

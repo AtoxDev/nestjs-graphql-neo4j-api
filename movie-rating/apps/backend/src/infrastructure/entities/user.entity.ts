@@ -13,5 +13,5 @@ export class User {
   email: string;
 
   @Field(() => [Rating], { nullable: true })
-  ratings: Rating[];
+  ratings?: Rating[];
 }
