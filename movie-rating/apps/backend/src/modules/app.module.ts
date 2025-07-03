@@ -5,6 +5,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { Neo4jConfigModule } from '../infrastructure/database/neo4j.config';
 import { UserModule } from './user.modules';
+import { MovieModule } from './movie.module';
+import { RatingModule } from './rating.module';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { UserModule } from './user.modules';
     }),
     Neo4jConfigModule,
     UserModule,
+    MovieModule,
+    RatingModule,
   ],
   controllers: [],
   providers: [],

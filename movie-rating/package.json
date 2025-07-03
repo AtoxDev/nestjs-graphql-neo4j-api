@@ -10,7 +10,8 @@
     "test:frontend": "nx test frontend",
     "test:backend": "nx test backend",
     "dev:frontend": "nx serve frontend --watch",
-    "dev:backend": "nx serve backend --watch"
+    "dev:backend": "nx serve backend --watch",
+    "seed": "ts-node scripts/seed.ts"
   },
   "private": true,
   "dependencies": {
