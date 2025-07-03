@@ -10,10 +10,20 @@ export class RatingResolver {
   async rateMovie(
     @Args('userId') userId: string,
     @Args('movieId') movieId: string,
-    @Args('score') score: number,
+    @Args('score', { type: () => Number }) score: number,
     @Args('review', { nullable: true }) review?: string
   ): Promise<Rating> {
     return this.ratingUseCases.createRating({ userId, movieId, score, comment: review });
+  }
+
+  @Query(() => Rating)
+  async rating(@Args('id') id: string): Promise<Rating> {
+    return this.ratingUseCases.findRatingById(id);
+  }
+
+  @Query(() => [Rating])
+  async ratings(): Promise<Rating[]> {
+    return this.ratingUseCases.findAllRatings();
   }
 
   @Query(() => [Rating])

@@ -96,7 +96,7 @@ movie-rating/
 ├── apps/
 │   ├── backend/          # API GraphQL (NestJS)
 │   ├── frontend/         # Aplicación React
-│   └── tests/            # Tests e2e y unitarios
+│   └── tests/            # Tests unitarios
 ├── scripts/
 │   └── seed.ts          # Script para cargar datos iniciales
 ├── docker-compose.yml   # Orquestación de servicios

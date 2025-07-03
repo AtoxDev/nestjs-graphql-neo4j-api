@@ -1,0 +1,53 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+}
+
+type Movie {
+  id: ID!
+  title: String!
+  releaseYear: Int
+  genres: [String!]!
+}
+
+type Rating {
+  id: ID!
+  score: Float!
+  review: String
+  userId: String!
+  movieId: String!
+}
+
+type Query {
+  users: [User!]!
+  user(id: String!): User!
+  movies: [Movie!]!
+  movie(id: String!): Movie!
+  rating(id: String!): Rating!
+  ratings: [Rating!]!
+  ratingsByUser(userId: String!): [Rating!]!
+  ratingsForMovie(movieId: String!): [Rating!]!
+  averageRatingForMovie(movieId: String!): Float!
+}
+
+type Mutation {
+  registerUser(input: CreateUserInput!): User!
+  addMovie(input: CreateMovieInput!): Movie!
+  rateMovie(userId: String!, movieId: String!, score: Float!, review: String): Rating!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+}
+
+input CreateMovieInput {
+  title: String!
+  genre: String!
+  releaseYear: Int!
+}

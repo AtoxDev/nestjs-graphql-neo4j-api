@@ -10,8 +10,8 @@ const swcJestConfig = JSON.parse(
 swcJestConfig.swcrc = false;
 
 export default {
-  displayName: '@movie-rating/backend-e2e',
-  preset: '../jest.preset.js',
+  displayName: '@movie-rating/backend-tests',
+  preset: '../../../jest.preset.js',
   globalSetup: '<rootDir>/src/support/global-setup.ts',
   globalTeardown: '<rootDir>/src/support/global-teardown.ts',
   setupFiles: ['<rootDir>/src/support/test-setup.ts'],
@@ -21,4 +21,9 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: 'test-output/jest/coverage',
+  moduleNameMapper: {
+    '^@movie-rating/backend/(.*)$': '<rootDir>/../../backend/src/$1'
+  },
+  roots: ['<rootDir>/src'],
+  testMatch: ['**/*.spec.ts', '**/*.test.ts']
 };

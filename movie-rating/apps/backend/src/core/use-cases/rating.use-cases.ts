@@ -23,6 +23,24 @@ export class RatingUseCases {
     }
   }
 
+  async findRatingById(id: string): Promise<Rating> {
+    try {
+      return await this.ratingRepository.findRatingById(id);
+    } catch (error: any) {
+      ErrorHandler.handleErrorGeneral(error.message, HttpStatus.INTERNAL_SERVER_ERROR, 'RATING_FIND_BY_ID_ERROR');
+      throw error;
+    }
+  }
+
+  async findAllRatings(): Promise<Rating[]> {
+    try {
+      return await this.ratingRepository.findAllRatings();
+    } catch (error: any) {
+      ErrorHandler.handleErrorGeneral(error.message, HttpStatus.INTERNAL_SERVER_ERROR, 'RATING_FIND_ALL_ERROR');
+      throw error;
+    }
+  }
+
   async getRatingsByUser(userId: string): Promise<Rating[]> {
     try {
       return await this.ratingRepository.getRatingsByUser(userId);

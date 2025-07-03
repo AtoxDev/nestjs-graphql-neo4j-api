@@ -1,14 +1,31 @@
 {
-  "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "out-tsc/@movie-rating/backend-e2e",
+    "outDir": "out-tsc/@movie-rating/backend-tests",
     "esModuleInterop": true,
     "noUnusedLocals": false,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "rootDir": "../../../",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2022",
+    "module": "esnext",
+    "lib": ["es2020"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": "../../../",
+    "paths": {
+      "@movie-rating/backend/*": ["apps/backend/src/*"]
+    },
+    "types": ["jest", "node"]
   },
   "include": [
     "jest.config.ts",
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "../../backend/src/**/*.ts"
   ],
-  "references": []
+  "exclude": ["node_modules", "tmp"]
 }

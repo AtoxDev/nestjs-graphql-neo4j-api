@@ -28,9 +28,49 @@ export class RatingRepository implements RatingRepositoryInterface {
       id: record.get('r').properties.id,
       score: record.get('r').properties.score,
       review: record.get('r').properties.review,
-      user: record.get('u').properties,
-      movie: record.get('m').properties,
+      userId: record.get('u').properties.id,
+      movieId: record.get('m').properties.id,
     };
+  }
+
+  async findRatingById(id: string): Promise<Rating> {
+    const session = this.driver.session();
+    const result = await session.run(
+      `MATCH (u:User)-[:RATED]->(r:Rating {id: $id})-[:RATES]->(m:Movie)
+       RETURN r, u, m`,
+      { id }
+    );
+    await session.close();
+
+    if (result.records.length === 0) {
+      throw new Error('Rating not found');
+    }
+
+    const record = result.records[0];
+    return {
+      id: record.get('r').properties.id,
+      score: record.get('r').properties.score,
+      review: record.get('r').properties.review,
+      userId: record.get('u').properties.id,
+      movieId: record.get('m').properties.id,
+    };
+  }
+
+  async findAllRatings(): Promise<Rating[]> {
+    const session = this.driver.session();
+    const result = await session.run(
+      `MATCH (u:User)-[:RATED]->(r:Rating)-[:RATES]->(m:Movie)
+       RETURN r, u, m`
+    );
+    await session.close();
+
+    return result.records.map(record => ({
+      id: record.get('r').properties.id,
+      score: record.get('r').properties.score,
+      review: record.get('r').properties.review,
+      userId: record.get('u').properties.id,
+      movieId: record.get('m').properties.id,
+    }));
   }
 
   async getRatingsByUser(userId: string): Promise<Rating[]> {
@@ -46,8 +86,8 @@ export class RatingRepository implements RatingRepositoryInterface {
       id: record.get('r').properties.id,
       score: record.get('r').properties.score,
       review: record.get('r').properties.review,
-      user: record.get('u').properties,
-      movie: record.get('m').properties,
+      userId: record.get('u').properties.id,
+      movieId: record.get('m').properties.id,
     }));
   }
 
@@ -64,8 +104,8 @@ export class RatingRepository implements RatingRepositoryInterface {
       id: record.get('r').properties.id,
       score: record.get('r').properties.score,
       review: record.get('r').properties.review,
-      user: record.get('u').properties,
-      movie: record.get('m').properties,
+      userId: record.get('u').properties.id,
+      movieId: record.get('m').properties.id,
     }));
   }
 

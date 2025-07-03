@@ -1,5 +1,5 @@
 {
-  "name": "@movie-rating/backend-e2e",
+  "name": "@movie-rating/backend-tests",
   "version": "0.0.1",
   "private": true,
   "nx": {
@@ -7,18 +7,17 @@
       "@movie-rating/backend"
     ],
     "targets": {
-      "e2e": {
+      "test": {
         "executor": "@nx/jest:jest",
         "outputs": [
           "{projectRoot}/test-output/jest/coverage"
         ],
         "options": {
-          "jestConfig": "backend-e2e/jest.config.ts",
+          "jestConfig": "jest.config.ts",
           "passWithNoTests": true
         },
         "dependsOn": [
-          "@movie-rating/backend:build",
-          "@movie-rating/backend:serve"
+          "@movie-rating/backend:build"
         ]
       }
     }

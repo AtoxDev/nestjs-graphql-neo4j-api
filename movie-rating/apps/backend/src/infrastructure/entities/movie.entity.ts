@@ -1,5 +1,4 @@
 import { Field, ID, Int, ObjectType } from "@nestjs/graphql";
-import { Rating } from "./rating.entity";
 
 @ObjectType()
 export class Movie {
@@ -14,7 +13,5 @@ export class Movie {
 
   @Field(() => [String])
   genres: string[];
-
-  @Field(() => [Rating], { nullable: 'itemsAndList' })
-  ratings?: Rating[];
 }
+
