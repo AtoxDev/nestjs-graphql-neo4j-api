@@ -17,7 +17,13 @@ import { RatingModule } from './rating.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      playground: true,
+      playground: {
+        endpoint: '/graphql',
+        settings: {
+          'request.credentials': 'include',
+        },
+      },
+      introspection: true,
     }),
     Neo4jConfigModule,
     UserModule,
