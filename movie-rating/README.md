@@ -1,61 +1,21 @@
-# Movie Rating API - GraphQL + Neo4j
+# 🎬 Movie Rating API - GraphQL + Neo4j
 
-API GraphQL para gestionar usuarios, películas y valoraciones usando Neo4j como base de datos.
+API GraphQL para gestionar usuarios, películas y valoraciones usando Neo4j como base de datos. Desarrollada como prueba técnica con NestJS, GraphQL y Neo4j.
 
 ## 🚀 Tecnologías
 
 - **Backend:** NestJS + GraphQL + Apollo Server
-- **Frontend:** React + Vite
 - **Base de datos:** Neo4j
 - **Orquestación:** Docker + Docker Compose
+- **Lenguaje:** TypeScript
 
-## 📋 Requisitos
+## 📋 Prerrequisitos
 
-- Docker Desktop
-- Node.js 18+
-- npm
+- **Docker Desktop** instalado y ejecutándose
+- **Node.js** 18+
+- **npm** o **yarn**
 
-## 🐳 Ejecutar con Docker (Recomendado)
-
-### 1. Construir las imágenes
-
-```bash
-npm run docker:build
-```
-
-### 2. Levantar todos los servicios
-
-```bash
-npm run docker:up
-```
-
-### 3. Cargar datos iniciales
-
-```bash
-npm run docker:seed
-```
-
-### 4. Acceder a las aplicaciones
-
-- **Frontend:** http://localhost
-- **Backend API:** http://localhost:3000/api
-- **GraphQL Playground:** http://localhost:3000/api/graphql
-- **Neo4j Browser:** http://localhost:7474
-
-### 5. Comandos útiles
-
-```bash
-# Ver logs en tiempo real
-npm run docker:logs
-
-# Detener todos los servicios
-npm run docker:down
-
-# Reiniciar servicios
-npm run docker:restart
-```
-
-## 🛠️ Desarrollo Local
+## 🛠️ Instalación y Configuración
 
 ### 1. Instalar dependencias
 
@@ -75,19 +35,24 @@ docker run --name neo4j-test -p7474:7474 -p7687:7687 -e NEO4J_AUTH=neo4j/test123
 npm run seed
 ```
 
-### 4. Ejecutar aplicaciones
-
-**Backend:**
+### 4. Construir y levantar servicios con Docker Compose
 
 ```bash
-npm run start:backend
+# Construir imagen del backend sin cache
+docker compose build --no-cache backend
+
+# Levantar todos los servicios
+docker compose up -d
 ```
 
-**Frontend:**
+## 🌐 Acceso a la aplicación
 
-```bash
-npm run start:frontend
-```
+Una vez que todos los servicios estén ejecutándose:
+
+- **GraphQL Playground:** http://localhost:3000/graphql
+- **Neo4j Browser:** http://localhost:7474
+  - Usuario: `neo4j`
+  - Contraseña: `test1234`
 
 ## 📊 Estructura del Proyecto
 
@@ -95,7 +60,12 @@ npm run start:frontend
 movie-rating/
 ├── apps/
 │   ├── backend/          # API GraphQL (NestJS)
-│   ├── frontend/         # Aplicación React
+│   │   ├── src/
+│   │   │   ├── core/     # Casos de uso y lógica de negocio
+│   │   │   ├── infrastructure/ # Repositorios y entidades
+│   │   │   ├── web/      # Resolvers GraphQL
+│   │   │   └── modules/  # Módulos NestJS
+│   │   └── Dockerfile
 │   └── tests/            # Tests unitarios
 ├── scripts/
 │   └── seed.ts          # Script para cargar datos iniciales
@@ -122,38 +92,96 @@ NODE_ENV=development
 
 ### Queries disponibles:
 
-- `movies` - Lista todas las películas
-- `movie(id: ID!)` - Detalles de una película
 - `users` - Lista todos los usuarios
-- `user(id: ID!)` - Detalles de un usuario
-- `ratingsByUser(userId: ID!)` - Valoraciones de un usuario
-- `ratingsForMovie(movieId: ID!)` - Valoraciones de una película
-- `averageRatingForMovie(movieId: ID!)` - Promedio de valoraciones
+- `user(id: String!)` - Detalles de un usuario
+- `movies` - Lista todas las películas
+- `movie(id: String!)` - Detalles de una película
+- `ratingsByUser(userId: String!)` - Valoraciones de un usuario
+- `ratingsForMovie(movieId: String!)` - Valoraciones de una película
+- `averageRatingForMovie(movieId: String!)` - Promedio de valoraciones
 
 ### Mutations disponibles:
 
-- `addMovie(input: MovieInput!)` - Añadir película
-- `registerUser(input: UserInput!)` - Registrar usuario
-- `rateMovie(userId: ID!, movieId: ID!, score: Int!, review: String)` - Valorar película
+- `registerUser(input: CreateUserInput!)` - Registrar usuario
+- `addMovie(input: CreateMovieInput!)` - Añadir película
+- `rateMovie(userId: String!, movieId: String!, score: Float!, review: String)` - Valorar película
+
+### Ejemplos de uso:
+
+#### Crear un usuario:
+
+```graphql
+mutation {
+  registerUser(input: { name: "Juan Pérez", email: "juan@example.com" }) {
+    id
+    name
+    email
+  }
+}
+```
+
+#### Ver todas las películas:
+
+```graphql
+query {
+  movies {
+    id
+    title
+    releaseYear
+    genres
+  }
+}
+```
+
+#### Valorar una película:
+
+```graphql
+mutation {
+  rateMovie(userId: "1", movieId: "1", score: 5.0, review: "Excelente película") {
+    id
+    score
+    review
+    userId
+    movieId
+  }
+}
+```
+
+#### Ver ratings de un usuario:
+
+```graphql
+query {
+  ratingsByUser(userId: "1") {
+    id
+    score
+    review
+    userId
+    movieId
+  }
+}
+```
 
 ## 🧪 Testing
 
 ```bash
 # Tests del backend
 npm run test:backend
-
-# Tests del frontend
-npm run test:frontend
 ```
 
-## 📦 Build
+## 🐳 Comandos Docker útiles
 
 ```bash
-# Build del backend
-npm run build:backend
+# Ver logs en tiempo real
+docker compose logs -f
 
-# Build del frontend
-npm run build:frontend
+# Detener todos los servicios
+docker compose down
+
+# Reiniciar servicios
+docker compose restart
+
+# Ver estado de los servicios
+docker compose ps
 ```
 
 ## 🔍 Troubleshooting
@@ -172,11 +200,49 @@ npm run build:frontend
    docker restart neo4j-test
    ```
 
-3. **Permisos de Docker:**
+3. **Error de permisos de Docker:**
+
    ```bash
    sudo chown -R $USER:$USER .
    ```
 
-## 📄 Licencia
+4. **Limpiar Docker:**
+   ```bash
+   docker system prune -a
+   docker volume prune
+   ```
 
-MIT
+## 📦 Build
+
+```bash
+# Build del backend
+npm run build:backend
+
+# Build del frontend
+npm run build:frontend
+```
+
+## 🏗️ Arquitectura
+
+El proyecto sigue una arquitectura limpia con separación de responsabilidades:
+
+- **Core:** Casos de uso y lógica de negocio
+- **Infrastructure:** Repositorios, entidades y configuración de base de datos
+- **Web:** Resolvers GraphQL y controladores
+- **Modules:** Organización modular con NestJS
+
+## 🎯 Funcionalidades implementadas
+
+✅ **Gestión de usuarios** - CRUD completo  
+✅ **Gestión de películas** - CRUD completo  
+✅ **Sistema de valoraciones** - Crear y consultar ratings  
+✅ **Relaciones en Neo4j** - Modelado correcto de relaciones  
+✅ **API GraphQL** - Queries y mutations completas  
+✅ **Tests unitarios** - Cobertura de funcionalidades  
+✅ **Docker** - Containerización completa  
+✅ **CI/CD** - GitHub Actions configurado  
+✅ **Documentación** - README completo
+
+---
+
+**Jorge Aitor Tapia - API GraphQL con Neo4j**
