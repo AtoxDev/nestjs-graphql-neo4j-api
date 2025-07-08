@@ -38,6 +38,9 @@ npm run seed
 ### 4. Construir y levantar servicios con Docker Compose
 
 ```bash
+# Limpiar caché
+docker system prune -f
+
 # Construir imagen del backend sin cache
 docker compose build --no-cache backend
 
