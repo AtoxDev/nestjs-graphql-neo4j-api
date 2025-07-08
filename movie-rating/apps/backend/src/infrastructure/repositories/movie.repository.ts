@@ -21,21 +21,38 @@ export class MovieRepository implements MovieRepositoryInterface {
       }
     );
     await session.close();
-    return result.records[0].get('m').properties;
+    const properties = result.records[0].get('m').properties;
+    return {
+      ...properties,
+      releaseYear: properties.releaseYear ? Number(properties.releaseYear) : null
+    };
   }
 
   async findAll(): Promise<Movie[]> {
     const session = this.driver.session();
     const result = await session.run('MATCH (m:Movie) RETURN m');
     await session.close();
-    return result.records.map(record => record.get('m').properties);
+    return result.records.map(record => {
+      const properties = record.get('m').properties;
+      return {
+        ...properties,
+        releaseYear: properties.releaseYear ? Number(properties.releaseYear) : null
+      };
+    });
   }
 
   async findById(id: string): Promise<Movie> {
     const session = this.driver.session();
     const result = await session.run('MATCH (m:Movie {id: $id}) RETURN m', { id });
     await session.close();
-    return result.records[0]?.get('m').properties;
+    const properties = result.records[0]?.get('m').properties;
+    if (properties) {
+      return {
+        ...properties,
+        releaseYear: properties.releaseYear ? Number(properties.releaseYear) : null
+      };
+    }
+    return properties;
   }
 
   async updateById(id: string, movie: Movie): Promise<Movie> {
@@ -50,7 +67,11 @@ export class MovieRepository implements MovieRepositoryInterface {
       }
     );
     await session.close();
-    return result.records[0].get('m').properties;
+    const properties = result.records[0].get('m').properties;
+    return {
+      ...properties,
+      releaseYear: properties.releaseYear ? Number(properties.releaseYear) : null
+    };
   }
 
   async deleteById(id: string): Promise<void> {
@@ -66,7 +87,13 @@ export class MovieRepository implements MovieRepositoryInterface {
       { genre }
     );
     await session.close();
-    return result.records.map(record => record.get('m').properties);
+    return result.records.map(record => {
+      const properties = record.get('m').properties;
+      return {
+        ...properties,
+        releaseYear: properties.releaseYear ? Number(properties.releaseYear) : null
+      };
+    });
   }
 
   async getAverageRating(movieId: string): Promise<number> {

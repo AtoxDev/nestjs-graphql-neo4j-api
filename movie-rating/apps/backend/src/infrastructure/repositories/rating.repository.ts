@@ -26,7 +26,7 @@ export class RatingRepository implements RatingRepositoryInterface {
     const record = result.records[0];
     return {
       id: record.get('r').properties.id,
-      score: record.get('r').properties.score,
+      score: Number(record.get('r').properties.score),
       review: record.get('r').properties.review,
       userId: record.get('u').properties.id,
       movieId: record.get('m').properties.id,
@@ -49,7 +49,7 @@ export class RatingRepository implements RatingRepositoryInterface {
     const record = result.records[0];
     return {
       id: record.get('r').properties.id,
-      score: record.get('r').properties.score,
+      score: Number(record.get('r').properties.score),
       review: record.get('r').properties.review,
       userId: record.get('u').properties.id,
       movieId: record.get('m').properties.id,
@@ -66,7 +66,7 @@ export class RatingRepository implements RatingRepositoryInterface {
 
     return result.records.map(record => ({
       id: record.get('r').properties.id,
-      score: record.get('r').properties.score,
+      score: Number(record.get('r').properties.score),
       review: record.get('r').properties.review,
       userId: record.get('u').properties.id,
       movieId: record.get('m').properties.id,
@@ -84,7 +84,7 @@ export class RatingRepository implements RatingRepositoryInterface {
 
     return result.records.map(record => ({
       id: record.get('r').properties.id,
-      score: record.get('r').properties.score,
+      score: Number(record.get('r').properties.score),
       review: record.get('r').properties.review,
       userId: record.get('u').properties.id,
       movieId: record.get('m').properties.id,
@@ -102,7 +102,7 @@ export class RatingRepository implements RatingRepositoryInterface {
 
     return result.records.map(record => ({
       id: record.get('r').properties.id,
-      score: record.get('r').properties.score,
+      score: Number(record.get('r').properties.score),
       review: record.get('r').properties.review,
       userId: record.get('u').properties.id,
       movieId: record.get('m').properties.id,
@@ -119,6 +119,6 @@ export class RatingRepository implements RatingRepositoryInterface {
     await session.close();
 
     const average = result.records[0].get('average');
-    return average ? Math.round(average * 10) / 10 : 0;
+    return average ? Number(average) : 0;
   }
 }

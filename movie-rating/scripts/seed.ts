@@ -33,14 +33,14 @@ async function seedDatabase() {
     // Crear películas (según entidad Movie de la prueba)
     console.log('Creando películas...');
     const moviesCypher = `
-      CREATE (m1:Movie {id: '1', title: 'El Padrino', releaseYear: 1972, genres: ['Drama', 'Crimen']})
-      CREATE (m2:Movie {id: '2', title: 'Pulp Fiction', releaseYear: 1994, genres: ['Crimen', 'Drama']})
-      CREATE (m3:Movie {id: '3', title: 'Forrest Gump', releaseYear: 1994, genres: ['Drama', 'Comedia']})
-      CREATE (m4:Movie {id: '4', title: 'Matrix', releaseYear: 1999, genres: ['Ciencia Ficción', 'Acción']})
-      CREATE (m5:Movie {id: '5', title: 'Titanic', releaseYear: 1997, genres: ['Romance', 'Drama']})
-      CREATE (m6:Movie {id: '6', title: 'El Rey León', releaseYear: 1994, genres: ['Animación', 'Aventura']})
-      CREATE (m7:Movie {id: '7', title: 'Jurassic Park', releaseYear: 1993, genres: ['Aventura', 'Ciencia Ficción']})
-      CREATE (m8:Movie {id: '8', title: 'La La Land', releaseYear: 2016, genres: ['Musical', 'Romance']})
+      CREATE (m1:Movie {id: '1', title: 'El Padrino', releaseYear: toInteger(1972), genres: ['Drama', 'Crimen']})
+      CREATE (m2:Movie {id: '2', title: 'Pulp Fiction', releaseYear: toInteger(1994), genres: ['Crimen', 'Drama']})
+      CREATE (m3:Movie {id: '3', title: 'Forrest Gump', releaseYear: toInteger(1994), genres: ['Drama', 'Comedia']})
+      CREATE (m4:Movie {id: '4', title: 'Matrix', releaseYear: toInteger(1999), genres: ['Ciencia Ficción', 'Acción']})
+      CREATE (m5:Movie {id: '5', title: 'Titanic', releaseYear: toInteger(1997), genres: ['Romance', 'Drama']})
+      CREATE (m6:Movie {id: '6', title: 'El Rey León', releaseYear: toInteger(1994), genres: ['Animación', 'Aventura']})
+      CREATE (m7:Movie {id: '7', title: 'Jurassic Park', releaseYear: toInteger(1993), genres: ['Aventura', 'Ciencia Ficción']})
+      CREATE (m8:Movie {id: '8', title: 'La La Land', releaseYear: toInteger(2016), genres: ['Musical', 'Romance']})
     `;
     await session.run(moviesCypher);
     console.log('8 películas creadas');
@@ -69,7 +69,7 @@ async function seedDatabase() {
       await session.run(`
         MATCH (u:User {id: $userId})
         MATCH (m:Movie {id: $movieId})
-        CREATE (r:Rating {id: $id, score: $score, review: $review})
+        CREATE (r:Rating {id: $id, score: toInteger($score), review: $review})
         CREATE (u)-[:RATED]->(r)
         CREATE (r)-[:RATES]->(m)
       `, rating);
