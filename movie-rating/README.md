@@ -220,9 +220,6 @@ docker compose ps
 ```bash
 # Build del backend
 npm run build:backend
-
-# Build del frontend
-npm run build:frontend
 ```
 
 ## 🏗️ Arquitectura
